@@ -1,0 +1,34 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Recipes</title>
+</head>
+
+<body>
+     
+ <nav>
+    <ul>
+        <img src="/static/images/chef.png" alt="chef">
+        <li class="title"><a href="/">Recipes</a></li>
+        <li><a href="/create">Add Recipe</a></li>
+    </ul>
+</nav>
+    <div class="container">
+        
+<h1>Create Recipe</h1>
+<div class="items-container">
+    <div class="item">
+        <form method="POST" action="{% url 'create_recipe' %}">
+            {% csrf_token %}
+            {{form}}
+         
+            <input type="submit" value="Create">
+        </form>
+    </div>
+</div>
+
+    </div>
+
+
+</body></html>
