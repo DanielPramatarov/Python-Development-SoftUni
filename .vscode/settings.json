@@ -1,0 +1,49 @@
+// {
+//     "todo-tree.highlights.defaultHighlight": {
+//         "icon": "clippy",
+//         "type": "text",
+//         "foreground": "black",
+//         "background": "#C0E8D5",
+//         "opacity": 50,
+//         "iconColour": "blue"
+//     },
+
+{
+    "todo-tree.highlights.defaultHighlight": {
+        "icon": "clippy",
+        "type": "text",
+        "foreground": "red",
+        "background": "white",
+        "opacity": 50,
+        "iconColour": "green"
+    },
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "icon": "calendar",
+            "iconClour": "lightgreen",
+            "foreground": "white",
+            "background": "#0048BA"
+            "type": "text"
+        },
+        "FIXME": {
+            "type": "text",
+            "foreground": "white",
+            "iconColour": "#E52B50",
+            "background": "#E52B50"
+        },
+        "COMPLETE": {
+            "icon": "verified",
+            "type": "text",
+            "foreground": "white",
+            "iconColour": "green",
+            "background": "green"
+        },
+    },
+    "todo-tree.general.tags": [
+        "BUG",
+        "COMPLETE ",
+        "FIXME",
+        "TODO",
+        
+    ]
+}

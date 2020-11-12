@@ -1,0 +1,24 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <title>RecipesForum</title>
+</head>
+
+<body>
+   
+    <ul class="topnav">
+        <li class="title"><a href="/">RecipesForum</a></li>
+        <li><a href="#news">All recipes</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="#contact">Add Recipe</a></li>
+        {% endif %}
+        <li class="right"><a href="/admin">login</a></li>
+        <li class="right"><a href="#about">about</a></li>
+    </ul>
+
+</body>
+
+</html>
