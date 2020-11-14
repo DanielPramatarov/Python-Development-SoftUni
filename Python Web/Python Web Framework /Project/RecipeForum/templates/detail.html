@@ -1,0 +1,96 @@
+{% load static  %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
+    <link rel="stylesheet" href="/static/css/detail.css">
+
+    <link rel="stylesheet" href="/static/css/recipes_display.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/create.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>RecipesForum</title>
+</head>
+
+<body>
+    <ul class="topnav">
+        <li class="title"><a href="/">RecipesForum</a></li>
+        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
+        <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
+        <li class="right"><a href="{% url 'recipe:logout' %}">Logout</a> </li>
+        <li class="right"><a href="#Profile">Profile</a> </li>
+        {% elif not user.is_authenticated  %}
+        <li class="right"><a href="/admin">login</a></li>
+        <li class="right"><a href="#about">about</a></li>
+        {% endif %}
+    </ul>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  
+    <div class='recipe-card'>
+        <div
+            style="background:url({{recipe.item_image}}) no-repeat 50% 50%; background-size:cover; height: 300px">
+
+        </div>
+        <div class="recipe-card__body">
+            <h1 class="recipe-card__heading">{{ recipe.item_name }}</h1>
+            <h2 class="recipe-card__subhead">{{ recipe.item_desc }}</h2>
+
+            <ul class="recipe-card__nav">
+                <li>
+                    <h3 class="active">Ingredients</h3>
+                </li>
+                <li>
+                    <h3>Method</h3>
+                </li>
+            </ul>
+
+
+
+            <ul class="recipe-card__ingredients">
+                <li>&frac14; cup unsalted butter</li>
+                <li>&frac14; cup vegetable shortening</li>
+                <li>&frac12; cup light brown sugar</li>
+                <li>&frac14; cup granulated sugar</li>
+                <li>1 teaspoon vanilla extract</li>
+                <li>1 &frac14; teaspoons ground cinnamon</li>
+                <li>&#8539; teaspoon ground nutmeg</li>
+                <li>1/2 teaspoon salt</li>
+                <li>1 teaspoon cider or white vinegar*</li>
+                <li>1 large egg</li>
+                <li>&frac12; teaspoon baking soda</li>
+                <li>&frac34; cup All-Purpose Flour</li>
+                <li>1 &frac12; cups rolled oats</li>
+                <li>1 cup golden raisins, optional</li>
+            </ul>
+            <div class="row">
+                
+                <a href="{% url 'recipe:my_recipe' %}"class="btn btn-danger">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span><strong>Back</strong></span>
+                    
+                </a>
+                <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <span><strong>Edit</strong></span>
+                </a>
+
+                
+                
+               
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+
+</html>

@@ -6,19 +6,12 @@ from .forms import ItemForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from django.contrib.auth import logout
 # Create your views here.
 
 
 
- 
-def index(request):
-    item_list = Item.objects.all()
-    
-    context ={
-        'item_list':item_list,
-    }
-    return render(request, "index.html", context)
- 
+
 
 # def create_item(request):
 #     form = ItemForm(request.POST or None)
@@ -28,6 +21,8 @@ def index(request):
 #         return redirect('food:index')
  
 #     return render(request,'food/item-form.html',{'form':form})
+
+
 
 
 # def detail(request,item_id):

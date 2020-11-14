@@ -1,0 +1,83 @@
+{% extends "navigationBar.html" %} 
+
+    {% block site_content %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 movie_list">
+        <div class="pt-8 pb-2 mb-3 border-bottom">
+        {% if not user_recipes %}
+
+        <div class="row">
+            <h1>You don't have any created Recipes yet</h1>
+        </div>
+
+
+        {% else %}
+            <div class="row">
+                <h1>My Recipe Posts</h1>
+            </div>
+            {% for recipe in user_recipes %}    
+            <!-- Movie Card Start -->
+            <div class="card-view">
+                <div class="card-header recipe">
+                    <div class="card-header-icon">
+                        <a href="#">
+                            <!-- <i class="material-icons header-icon">play_arrow</i> -->
+                            <img src="{{ recipe.item_image }}" width="330" height="350" center>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-movie-content">
+                    <div class="card-movie-content-head">
+                        <a href="#">
+                            <h3 class="card-movie-title">{{ recipe.item_name }}</h3>
+                        </a>
+                        <div class="ratings"><span>8.8</span>/10</div>
+                    </div>
+                    <div class="card-movie-info">
+                        <div class="movie-running-time">
+                            <label>Last update</label>
+
+                        </div>
+
+                        <div class="movie-running-time">
+                            <label>Time to be cooked</label>
+                            <span>{{ recipe.item_time_to_cook }} minutes</span>
+                        </div>
+                    </div>
+                    <div class="container">
+
+
+                        <div class="row">
+                            <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                <span><strong>Edit</strong></span>
+                            </a>
+                            <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                <span><strong>View</strong></span>
+                            </a>
+                            <a href="{% url 'recipe:delete' recipe.id %}"class="btn btn-danger">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                <span><strong>Delete</strong></span>
+                                
+                            </a>
+
+                            
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% endif %}
+    </main>
+    <!-- Movie Card End -->
+{% endblock %}

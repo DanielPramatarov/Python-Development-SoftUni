@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.conf import settings
 # Create your models here.
 class Item(models.Model):
     dificult_CHOICES = (
@@ -11,13 +12,14 @@ class Item(models.Model):
     (5, 'Excellent')
 )
  
-    user_name = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
+    user_name = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    # user_name = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
     item_name = models.CharField(max_length=200)
     item_desc = models.TextField()
     item_time_to_cook = models.IntegerField()
     item_image = models.CharField(max_length=500,default="")
     # //TODO  item_dificult 1-10 and remove default = 1  
-    # item_dificult_level = models.IntegerField(choices=dificult_CHOICES, default=1)
+    # item_dificult_level = models.IntegerField(choices=dificult_CHOICES)
     # //TODO  item_dificult 1-10 and remove default = 1    
     
 
@@ -26,7 +28,7 @@ class Item(models.Model):
  
 
     def get_absolute_url(self):
-        #    // FIXME    change food    
+        
            return reverse("recipe:detail", kwargs={"pk": self.pk})
 
 

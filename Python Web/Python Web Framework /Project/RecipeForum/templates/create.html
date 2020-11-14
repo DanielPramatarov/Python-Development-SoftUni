@@ -1,0 +1,68 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <link rel="stylesheet" href="/static/css/create.css">
+    <title>Recipes</title>
+</head>
+
+<body>
+
+    <ul class="topnav">
+        <li class="title"><a href="/">RecipesForum</a></li>
+        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
+        <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
+        <li class="right"><a href="{% url 'recipe:logout' %}">Logout</a> </li>
+        <li class="right"><a href="#Profile">Profile</a> </li>
+        <li class="right"><a href="#username">{{ initial_user}}</a></li>
+        {% elif not user.is_authenticated  %}
+        <li class="right"><a href="/admin">login</a></li>
+        <li class="right"><a href="#about">about</a></li>
+        {% endif %}
+    </ul>
+
+    <div class="container">
+
+        <h1>Create Recipe</h1>
+        <div class="items-container">
+            <div class="item">
+                <form method="POST" action="{% url 'recipe:create' %}">
+                    {% csrf_token %}
+                    <!-- {{form}} -->
+                    <!-- <label for="{{ form.user_name.id_for_label }}">user_name</label> -->
+                    {{ form.user_name }}
+                    {{ form.user_name.errors }}
+                    <label for="{{ form.item_name.id_for_label }}">Recipe name</label>
+                    {{ form.item_name }}
+                    {{ form.item_name.errors }}
+                    <label for="{{ form.item_desc.id_for_label }}">Recipe Description</label>
+                    {{ form.item_desc }}
+                    <label for="{{ form.item_desc.id_for_label }}">EXAMPLE:</label>
+
+                    <label for="{{ form.item_desc.id_for_label }}">1 kg tomatos, 2kg carrots, 1 soup oil, 500gr sugar</label>
+                    {{ form.item_desc.errors }}
+                    <label for="{{ form.item_time_to_cook.id_for_label }}">Time</label>
+                    {{ form.item_time_to_cook }}
+                    {{ form.item_time_to_cook.errors }}
+                    <label for="{{ form.item_image.id_for_label }}">Link to image</label>
+                    {{ form.item_image }}
+                    {{ form.item_image.errors }}
+                    <!-- <input type="submit"  value="Create" class="btn btn-success"> -->
+                 
+
+
+                    <input type="submit" value="Create" class="button" />
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <link rel="stylesheet" href="/static/css/create.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
+    <title>Recipes</title>
+</head>
+
+<body>
+
+    <ul class="topnav">
+        <li class="title"><a href="/">RecipesForum</a></li>
+        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
+        <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
+        <li class="right"><a href="{% url 'recipe:logout' %}">Logout</a> </li>
+        <li class="right"><a href="#Profile">Profile</a> </li>
+        <li class="right"><a href="#username">{{ initial_user}}</a></li>
+        {% elif not user.is_authenticated  %}
+        <li class="right"><a href="/admin">login</a></li>
+        <li class="right"><a href="#about">about</a></li>
+        {% endif %}
+    </ul>
+
+    <div class="container">
+
+        <div class="container">
+
+            <h1>Edit Recipe</h1>
+            <div class="items-container">
+                <div class="item">
+                    <form method="POST" action="{% url 'recipe:edit' recipe.id %}">
+                        {% csrf_token %}
+
+                        {{form}}
+
+                        <input type="submit" class="button edit" value="Edit">
+                    </form>
+                    <!-- <a href="{% url 'recipe:my_recipe' %}" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="false"></span>
+                        <span><strong>Back</strong></span>
+                    
+                    </a> -->
+                    <input type="button" class="but" value="Back" onclick=" relocate_home()">
+
+                    <script>
+                        function relocate_home() {
+                            location.href = "{% url 'recipe:my_recipe' %}";
+                        } 
+                    </script>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+</body>
+
+</html>

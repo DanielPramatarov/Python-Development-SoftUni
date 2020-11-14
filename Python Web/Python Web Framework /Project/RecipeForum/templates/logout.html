@@ -1,23 +1,4 @@
-{% extends "navigationBar.html" %}
-
-
-{% block site_content %}
-this is home page of the forum
-
-
-<!-- <a href="{% url 'recipe:my_recipe' %}" class="btn btn-danger">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span><strong>Back</strong></span>
-
-</a> -->
-
-
-{% endblock %}
-
-
-
-
-<!-- <html lang="en">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -27,23 +8,23 @@ this is home page of the forum
 </head>
 
 <body>
-     {% block navigationBar %}
+   
     <ul class="topnav">
         <li class="title"><a href="/">RecipesForum</a></li>
-        <li><a href="#All Recipes">All recipes</a></li>
+        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'recipe:logout' %}">Logout</a> </li>
+        <li class="right"><a href="#logout">Logout</a> </li>
         <li class="right"><a href="#Profile">Profile</a> </li>
         {% elif not user.is_authenticated  %}
             <li class="right"><a href="/admin">login</a></li>
         <li class="right"><a href="#about">about</a></li>
         {% endif %}
-    </ul> -->
-<!-- {% endblock %} -->
-
-<!-- 
+    </ul>
+    <p1>
+        bye bye bye 
+    </p1>
 </body>
 
-</html> -->
+</html>
