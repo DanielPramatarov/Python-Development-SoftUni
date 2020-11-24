@@ -53,19 +53,28 @@
 
 
                         <div class="row">
-                            <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
+                            <!-- <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                 <span><strong>Edit</strong></span>
-                            </a>
-                            <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
+                            </a> -->
+                            <a type="button" class="btn btn-warning btn-sm btn-radius" href="{% url 'recipe:edit' recipe.id %}" >Edit</a>
+                            <!-- <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                 <span><strong>View</strong></span>
-                            </a>
-                            <a href="{% url 'recipe:delete' recipe.id %}"class="btn btn-danger">
+                            </a> -->
+                            <!-- <button type="button" class="btn btn-info btn-radius">Info</button> -->
+                            <!-- <button type="button" class="btn btn-info btn-sm btn-radius">Info</button> -->
+                            <a type="button" class="btn btn-info btn-sm btn-radius" href="{% url 'recipe:detail' recipe.id %}" >View</a>
+
+                            <!-- <a href="{% url 'recipe:delete' recipe.id %}"class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 <span><strong>Delete</strong></span>
                                 
-                            </a>
+                            </a> -->
+                            <!-- <button class="btn btn-danger btn-xs btn-radius" href="{% url 'recipe:my_recipe' %}">Back</button> -->
+                            <a  class="btn btn-danger btn-sm btn-radius" href="{% url 'recipe:delete' recipe.id %}">Delete</a>
+                            
+                            <link href="/static/css/buttons/buttons.css " rel="stylesheet">
 
                             
                             

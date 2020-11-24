@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="/static/css/navbar.css">
     <title>RecipesForum</title>
 </head>
 
@@ -15,7 +15,7 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="#logout">Logout</a> </li>
+        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
         <li class="right"><a href="#Profile">Profile</a> </li>
         {% elif not user.is_authenticated  %}
             <li class="right"><a href="/admin">login</a></li>

@@ -7,14 +7,16 @@ from recipe.forms import ItemForm, DeleteRecipeForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-from django.contrib.auth import logout
+# from django.contrib.auth import logout
 from django import forms
 
 
 def create_recipe(request):
 
     form = ItemForm()
-
+    form.fields['item_name'].widget.attrs.update({
+            'placeholder': 'Enter Recipe Name'
+        })
     initial_user = {'user_name': request.user}
     form = ItemForm(initial=initial_user)
     if request.method == 'POST':
@@ -47,9 +49,13 @@ def delete_recipe(request, pk):
 def detail_recipe(request, pk):
     recipe = Item.objects.get(pk=pk)
     # products = Item.ingredients.split(", ")
+    # initial_user = {'user_name': request.user}
+    all_recipes = Item.objects.all()
 
     context = {
             'recipe': recipe,
+            'user_name': request.user,
+            # 'recipe': recipe,
             # 'products':products,
         }
 

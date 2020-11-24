@@ -16,7 +16,7 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'recipe:logout' %}">Logout</a> </li>
+        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
         <li class="right"><a href="#Profile">Profile</a> </li>
         {% elif not user.is_authenticated  %}
             <li class="right"><a href="/admin">login</a></li>
@@ -34,16 +34,27 @@
                     {{form}}
 
                     <!-- <input type="submit" value="Delete"> -->
-                    <input type="submit" value="Delete" class="button"/> 
+                    <!-- <input type="submit" value="Delete" class="button"/>  -->
+                    <input  value="Delete" type="submit" class="btn btn-danger btn-xs btn-radius" href="{% url 'recipe:my_recipe' %}"></input>
 
                 </form>
-                <input type="button" class="button1" value="Back" onclick=" relocate_home()">
+                <div class="p-t-30">
+                    <!-- <button class="btn btn--radius btn--green" type="submit">Register</button> -->
+                    <!-- <button  type="submit" class="btn btn-danger btn-xs btn-radius">Back</button> -->
+                    <a class="btn btn-danger btn-xs btn-radius" href="{% url 'recipe:my_recipe' %}">Back</a>
+
+                    
+                    <!-- <input type="submit" value="Register" class="btn btn--radius btn--green" /> -->
+                    <link href="/static/css/buttons/buttons.css " rel="stylesheet">
+                    <!-- <button type="submit" href= "recipes:all_recipe" class="btn btn-primary btn-xs btn-radius">Register</button> -->
+                </div>
+                <!-- <input type="button" class="button1" value="Back" onclick=" relocate_home()">
 
                 <script>
                     function relocate_home() {
                         location.href = "{% url 'recipe:my_recipe' %}";
                     } 
-                </script>
+                </script> -->
             </div>
         </div>
 

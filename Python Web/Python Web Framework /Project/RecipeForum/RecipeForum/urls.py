@@ -21,11 +21,14 @@ from django.urls import include,path
 from django.contrib.auth import views as authentication_views
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts import  urls 
+from recipe import  urls
 
  
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('recipe.urls')),
+    path('account/',include('accounts.urls')),
     
 #     path('register/',user_views.register,name='register'),
 #     path('login/',authentication_views.LoginView.as_view(template_name='users/login.html'),name='login'),

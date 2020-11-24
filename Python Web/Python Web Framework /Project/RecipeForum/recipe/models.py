@@ -21,6 +21,7 @@ class Item(models.Model):
     # //TODO  item_dificult 1-10 and remove default = 1  
     # item_dificult_level = models.IntegerField(choices=dificult_CHOICES)
     # //TODO  item_dificult 1-10 and remove default = 1    
+
     
 
     def __str__(self):

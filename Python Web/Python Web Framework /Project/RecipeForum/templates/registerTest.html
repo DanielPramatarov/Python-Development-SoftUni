@@ -1,0 +1,11 @@
+<div class="items-container">
+    <div class="item">
+        <form method="POST" action="{% url 'accounts:register' %}">
+            {% csrf_token %}
+            {{ form }}
+
+
+            <input type="submit" value="Create" class="button" />
+        </form>
+    </div>
+</div>

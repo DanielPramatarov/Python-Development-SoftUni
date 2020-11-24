@@ -1,14 +1,15 @@
+<!-- {% include "3rdnabar.html" %} -->
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/navbar.css">
-    <link rel="stylesheet" href="/static/css/create.css">
-    <title>Recipes</title>
-</head>
-
-<body>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/css/navbar.css">
+        <link rel="stylesheet" href="/static/css/create.css">
+        <title>Recipes</title>
+    </head>
+    
+    <body>
 
     <ul class="topnav">
         <li class="title"><a href="/">RecipesForum</a></li>
@@ -16,7 +17,7 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'recipe:logout' %}">Logout</a> </li>
+        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
         <li class="right"><a href="#Profile">Profile</a> </li>
         <li class="right"><a href="#username">{{ initial_user}}</a></li>
         {% elif not user.is_authenticated  %}
@@ -34,11 +35,16 @@
                     {% csrf_token %}
                     <!-- {{form}} -->
                     <!-- <label for="{{ form.user_name.id_for_label }}">user_name</label> -->
-                    {{ form.user_name }}
-                    {{ form.user_name.errors }}
+                    <!-- {{ form.user_name }}
+                    {{ form.user_name.errors }} -->
                     <label for="{{ form.item_name.id_for_label }}">Recipe name</label>
                     {{ form.item_name }}
-                    {{ form.item_name.errors }}
+                    <!-- {% for i in form %}
+                        {{ i.id_for_label }}
+                    {% endfor %} -->
+
+                    <!-- {{ form.item_name }} -->
+                    <!-- {{ form.item_name.errors }} -->
                     <label for="{{ form.item_desc.id_for_label }}">Recipe Description</label>
                     {{ form.item_desc }}
                     <label for="{{ form.item_desc.id_for_label }}">EXAMPLE:</label>
