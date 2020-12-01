@@ -1,13 +1,45 @@
-{% extends "navigationBar.html" %} 
+{% extends "navigationBar.html" %}
 
-    {% block site_content %}
+{% block site_content %}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 movie_list">
-        <div class="pt-8 pb-2 mb-3 border-bottom">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 movie_list">
+    <div class="pt-8 pb-2 mb-3 border-bottom">
+        <style>
+            .card-header-icon {
+                object-fit: cover;
+                width: 100%;
+                max-height: 100%;
+            }
+
+            .card-view {
+                /* margin: 0 auto; */
+                /* Added */
+                /* float: ceneter; */
+                /* Added */
+                /* margin-bottom: 0 px; */
+                /* Added */
+                /* grid-column-gap: 50px;   */
+                /* padding: 0px;
+          font-size: 40px;
+          text-align: center
+          grid-gap: 50px; */
+                /* display: flex; */
+                margin-left: 6%;
+                /* padding: 0px */
+                border-radius: 26px;
+                box-sizing: border-box;
+                padding: 0;
+                /* margin-top: 5px; */
+                box-shadow: 3px 4px 9px 0px #32322e;
+                background-position: center;
+                background-size: cover;
+
+            }
+        </style>
         {% if not user_recipes %}
 
         <div class="row">
@@ -16,77 +48,127 @@
 
 
         {% else %}
-            <div class="row">
-                <h1>My Recipe Posts</h1>
+        <div class="row">
+            <h1>My Recipe Posts</h1>
+        </div>
+        {% for recipe in user_recipes %}
+        <!-- Movie Card Start -->
+        <div class="card-view">
+            <div class="card-header recipe">
+                <div class="card-header-icon">
+                    <a href="#">
+                        <!-- <i class="material-icons header-icon">play_arrow</i> -->
+                        <img src="{{ recipe.image.url }}" width="330" height="370">
+                    </a>
+                </div>
             </div>
-            {% for recipe in user_recipes %}    
-            <!-- Movie Card Start -->
-            <div class="card-view">
-                <div class="card-header recipe">
-                    <div class="card-header-icon">
-                        <a href="#">
-                            <!-- <i class="material-icons header-icon">play_arrow</i> -->
-                            <img src="{{ recipe.item_image }}" width="330" height="350" center>
-                        </a>
+
+            <div class="card-movie-content">
+                <div class="card-movie-content-head">
+                    <a href="#">
+                        <h3 class="card-movie-title">{{ recipe.item_name }}</h3>
+                    </a>
+                    <div class="ratings"><span>8.8</span>/10</div>
+                </div>
+                <div class="card-movie-info">
+                    <div class="movie-running-time">
+                        <label>Last update</label>
+
+                    </div>
+
+                    <div class="movie-running-time">
+                        <label>Time to be cooked</label>
+                        <span>{{ recipe.item_time_to_cook }} minutes</span>
                     </div>
                 </div>
-
-                <div class="card-movie-content">
-                    <div class="card-movie-content-head">
-                        <a href="#">
-                            <h3 class="card-movie-title">{{ recipe.item_name }}</h3>
-                        </a>
-                        <div class="ratings"><span>8.8</span>/10</div>
-                    </div>
-                    <div class="card-movie-info">
-                        <div class="movie-running-time">
-                            <label>Last update</label>
-
-                        </div>
-
-                        <div class="movie-running-time">
-                            <label>Time to be cooked</label>
-                            <span>{{ recipe.item_time_to_cook }} minutes</span>
-                        </div>
-                    </div>
-                    <div class="container">
+                <div class="container">
 
 
-                        <div class="row">
-                            <!-- <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
+                    <div class="row">
+                        <!-- <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                 <span><strong>Edit</strong></span>
                             </a> -->
-                            <a type="button" class="btn btn-warning btn-sm btn-radius" href="{% url 'recipe:edit' recipe.id %}" >Edit</a>
-                            <!-- <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
+                        <a type="button" class="btn btn-warning btn-sm btn-radius"
+                            href="{% url 'recipe:edit' recipe.id %}">Edit</a>
+                        <!-- <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                 <span><strong>View</strong></span>
                             </a> -->
-                            <!-- <button type="button" class="btn btn-info btn-radius">Info</button> -->
-                            <!-- <button type="button" class="btn btn-info btn-sm btn-radius">Info</button> -->
-                            <a type="button" class="btn btn-info btn-sm btn-radius" href="{% url 'recipe:detail' recipe.id %}" >View</a>
+                        <!-- <button type="button" class="btn btn-info btn-radius">Info</button> -->
+                        <!-- <button type="button" class="btn btn-info btn-sm btn-radius">Info</button> -->
+                        <a type="button" class="btn btn-info btn-sm btn-radius"
+                            href="{% url 'recipe:detail' recipe.id %}">View</a>
 
-                            <!-- <a href="{% url 'recipe:delete' recipe.id %}"class="btn btn-danger">
+                        <!-- <a href="{% url 'recipe:delete' recipe.id %}"class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 <span><strong>Delete</strong></span>
                                 
                             </a> -->
-                            <!-- <button class="btn btn-danger btn-xs btn-radius" href="{% url 'recipe:my_recipe' %}">Back</button> -->
-                            <a  class="btn btn-danger btn-sm btn-radius" href="{% url 'recipe:delete' recipe.id %}">Delete</a>
-                            
-                            <link href="/static/css/buttons/buttons.css " rel="stylesheet">
+                        <!-- <button class="btn btn-danger btn-xs btn-radius" href="{% url 'recipe:my_recipe' %}">Back</button> -->
+                        <a class="btn btn-danger btn-sm btn-radius"
+                            href="{% url 'recipe:delete' recipe.id %}">Delete</a>
 
-                            
-                            
-                           
-                        </div>
+                        <link href="/static/css/buttons/buttons.css " rel="stylesheet">
+
+
+
+
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
+    </div>
 
-        {% endif %}
-    </main>
-    <!-- Movie Card End -->
+    {% endif %}
+
+
+
+
+
+
+
+ <!-- Paginationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn -->
+
+
+
+<style>
+    .pagination {
+      display: inline-block;
+    }
+    
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+    
+    .pagination a.active {
+      background-color: #3C69E7;
+      color: white;
+    }
+    
+    .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
+    </head>
+    <body>
+    
+    <div class="pagination">
+      <a href="#">&laquo;</a>
+      {% if user_recipes.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ user_recipes.previous_page_number }}">previous</a>
+     {% endif %}
+      <a class="active" href="#"> Page {{ user_recipes.number }} of {{ user_recipes.paginator.num_pages }}.</a>
+      {% if user_recipes.has_next %}
+      <a href="?page={{ user_recipes.next_page_number }}">next</a>
+      <a href="?page={{ user_recipes.paginator.num_pages }}">last &raquo;</a>
+  {% endif %}
+     
+      <a href="#">&raquo;</a>
+    </div>
+</main>
+<!-- Movie Card End -->
 {% endblock %}

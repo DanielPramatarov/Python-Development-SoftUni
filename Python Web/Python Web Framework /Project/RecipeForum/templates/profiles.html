@@ -110,35 +110,128 @@
                 </article>
                 
             </div> -->
-            
+          
+            {% load static %}    
             {% for user in   users %}
             <div class="grid-item">
                 <article class="material-card Pink">
                     <h2>
-                        <span>{{ user.username }}</span>
+                        <span>{{ user.user }}</span>
                         <strong>
                             <i class="fa fa-fw fa-star"></i>
-                            Mystic River
+                            
+                            {{user.firstname }} {{user.lastname }} 
+
                         </strong>
                     </h2>
                     <div class="mc-content">
                         <div class="img-container">
+                            {% if user.profile_image %}
                             <img class="img-responsive"
-                                src="https://i.pinimg.com/474x/bc/d4/ac/bcd4ac32cc7d3f98b5e54bde37d6b09e.jpg"
+                                src="{{ user.profile_image.url }}"
                                 style="height:100%">
+                            {% else %}
+                            <img class="img-responsive"
+                            src="{% static 'images/profiles/default_image.png' %}"
+                            style="height:100%">
+                            {% endif %}
                         </div>
                         <div class="mc-description">
-                            He has won two Academy Awards, for his roles in the mystery drama Mystic River (2003) and
-                            the biopic Milk (2008). Penn began his acting career in television with a brief appearance
-                            in a 1974 episode of Little House on the Prairie ...
+                            {{ user.info}}
                         </div>
                     </div>
                     <a class="mc-btn-action">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <div class="mc-footer">
+                    <!-- <div class="mc-footer">
                        
-                        <button type="button" class="gradient-button gradient-button-2">Button</button>
+                        <a href="{% url 'accounts:detail_profile' user.pk  %}" class="btn btn-primary a-btn-slide-text">
+                            <span class="gradient-button gradient-button-2" aria-hidden="true"></span>
+                            <span><strong>View</strong></span>
+                            
+                        </a>
+                        
+                        
+                        
+                    </div> -->
+                    <style>
+                        .button {
+                          background-color: #4CAF50; /* Green */
+                          border: none;
+                          color: white;
+                          padding: 16px 32px;
+                          text-align: center;
+                          text-decoration: none;
+                          display: inline-block;
+                          font-size: 16px;
+                          margin: 4px 2px;
+                          transition-duration: 0.4s;
+                          cursor: pointer;
+                        }
+                        
+                        .button1 {
+                          background-color: white; 
+                          color: black; 
+                          border: 2px solid #4CAF50;
+                        }
+                        
+                        .button1:hover {
+                          background-color: #4CAF50;
+                          color: white;
+                        }
+                        
+                        .button2 {
+                          background-color: white; 
+                          color: black; 
+                          border: 2px solid pink;
+                        }
+                        
+                        .button2:hover {
+                          background-color: pink;
+                          color: white;
+                        }
+                        
+                        .button3 {
+                          background-color: white; 
+                          color: black; 
+                          border: 2px solid #f44336;
+                        }
+                        
+                        .button3:hover {
+                          background-color: #f44336;
+                          color: white;
+                        }
+                        
+                        .button4 {
+                          background-color: white;
+                          color: black;
+                          border: 5px solid #e7e7e7;
+                        }
+                        
+                        .button4:hover {background-color: #e7e7e7;}
+                        
+                        .button5 {
+                          background-color: white;
+                          color: black;
+                          border: 2px solid #555555;
+                        }
+                        
+                        .button5:hover {
+                          background-color: #555555;
+                          color: white;
+                        }
+                        </style>    
+                    <div class="mc-footer">
+                        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+                        <a href="{% url 'accounts:detail_profile' user.pk  %}" class="btn btn-primary a-btn-slide-text">
+                            <button class="button button2">View Profile</button>
+
+                        </a>
+                       
+                       
+
+
 
                     </div>
                 </article>
@@ -838,6 +931,54 @@
                 </article>
             </div> -->
         </div>
+
+
+<!-- Paginationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn -->
+
+
+
+<style>
+    .pagination {
+      display: inline-block;
+    }
+    
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+    
+    .pagination a.active {
+      background-color: #3C69E7;
+      color: white;
+    }
+    
+    .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
+    </head>
+    <body>
+    
+    <div class="pagination">
+      <a href="#">&laquo;</a>
+      {% if all_users.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ all_users.previous_page_number }}">previous</a>
+     {% endif %}
+      <a class="active" href="#"> Page {{ all_users.number }} of {{ all_users.paginator.num_pages }}.</a>
+      {% if all_users.has_next %}
+      <a href="?page={{ all_users.next_page_number }}">next</a>
+      <a href="?page={{ all_users.paginator.num_pages }}">last &raquo;</a>
+  {% endif %}
+     
+      <a href="#">&raquo;</a>
+    </div>
+    
+
+
+
+
+
     </section>
 
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>

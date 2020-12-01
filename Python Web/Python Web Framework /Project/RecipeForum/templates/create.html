@@ -1,24 +1,105 @@
 <!-- {% include "3rdnabar.html" %} -->
+
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/static/css/navbar.css">
-        <link rel="stylesheet" href="/static/css/create.css">
-        <title>Recipes</title>
-    </head>
-    
-    <body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <link rel="stylesheet" href="/static/css/create.css">
+    <title>Recipes</title>
+</head>
+
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #3C69E7 	 	;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown {
+    float: right;
+    width:6%;
+}
+</style>
 
     <ul class="topnav">
         <li class="title"><a href="/">RecipesForum</a></li>
         <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
-        <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
-        <li class="right"><a href="#Profile">Profile</a> </li>
+        <!-- <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li> -->
+        <!-- <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li> -->
+        <div class="dropdown">
+            <button class="dropbtn">Profile 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{% url 'recipe:my_recipe' %}">My Recipes</a>
+              <a href="{% url 'accounts:User_Profile' %}">My Profile</a> 
+              <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+          </div> 
         <li class="right"><a href="#username">{{ initial_user}}</a></li>
         {% elif not user.is_authenticated  %}
         <li class="right"><a href="/admin">login</a></li>
@@ -31,32 +112,29 @@
         <h1>Create Recipe</h1>
         <div class="items-container">
             <div class="item">
-                <form method="POST" action="{% url 'recipe:create' %}">
+                <form method="POST" action="{% url 'recipe:create' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- {{form}} -->
                     <!-- <label for="{{ form.user_name.id_for_label }}">user_name</label> -->
-                    <!-- {{ form.user_name }}
-                    {{ form.user_name.errors }} -->
+                    {{ form.user_name }}
+                    {{ form.user_name.errors }}
                     <label for="{{ form.item_name.id_for_label }}">Recipe name</label>
                     {{ form.item_name }}
-                    <!-- {% for i in form %}
-                        {{ i.id_for_label }}
-                    {% endfor %} -->
-
-                    <!-- {{ form.item_name }} -->
-                    <!-- {{ form.item_name.errors }} -->
+                    {{ form.item_name.errors }}
                     <label for="{{ form.item_desc.id_for_label }}">Recipe Description</label>
                     {{ form.item_desc }}
                     <label for="{{ form.item_desc.id_for_label }}">EXAMPLE:</label>
 
                     <label for="{{ form.item_desc.id_for_label }}">1 kg tomatos, 2kg carrots, 1 soup oil, 500gr sugar</label>
-                    {{ form.item_desc.errors }}
+                    <label for="{{ form.item_desc.id_for_label }}">ingredients</label>
+
+                    {{ form.ingredients }}
                     <label for="{{ form.item_time_to_cook.id_for_label }}">Time</label>
                     {{ form.item_time_to_cook }}
                     {{ form.item_time_to_cook.errors }}
-                    <label for="{{ form.item_image.id_for_label }}">Link to image</label>
-                    {{ form.item_image }}
-                    {{ form.item_image.errors }}
+                    <label for="{{ form.item_image.id_for_label }}">Upload image</label>
+                    {{ form.image }}
+                   
                     <!-- <input type="submit"  value="Create" class="btn btn-success"> -->
                  
 

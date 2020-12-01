@@ -10,6 +10,76 @@
 </head>
 
 <body>
+    <style>
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .navbar {
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        .navbar a {
+          float: left;
+          font-size: 16px;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        .dropdown {
+          float: left;
+          overflow: hidden;
+        }
+        
+        .dropdown .dropbtn {
+          font-size: 16px;  
+          border: none;
+          outline: none;
+          color: white;
+          padding: 14px 16px;
+          background-color: inherit;
+          font-family: inherit;
+          margin: 0;
+        }
+        
+        .navbar a:hover, .dropdown:hover .dropbtn {
+          background-color: #3C69E7 	 	;
+        }
+        
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        
+        .dropdown-content a {
+          float: none;
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+        }
+        
+        .dropdown-content a:hover {
+          background-color: #ddd;
+        }
+        
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+        .dropdown {
+            float: right;
+            width:6.5%;
+        }
+        </style>
+        
 
     <ul class="topnav">
         <li class="title"><a href="/">RecipesForum</a></li>
@@ -17,8 +87,18 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
-        <li class="right"><a href="#Profile">Profile</a> </li>
+        <!-- <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
+        <li class="right"><a href="{% url 'accounts:User_Profile' %}">Profile</a> </li> -->
+        <div class="dropdown">
+            <button class="dropbtn">Profile 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{% url 'recipe:my_recipe' %}">My Recipes</a>
+              <a href="{% url 'accounts:User_Profile' %}">My Profile</a> 
+              <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+          </div> 
         <li class="right"><a href="#username">{{ initial_user}}</a></li>
         {% elif not user.is_authenticated  %}
         <li class="right"><a href="/admin">login</a></li>
@@ -33,7 +113,7 @@
             <h1>Edit Recipe</h1>
             <div class="items-container">
                 <div class="item">
-                    <form method="POST" action="{% url 'recipe:edit' recipe.id %}">
+                    <form method="POST" action="{% url 'recipe:edit' recipe.id %}" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         {{form}}
@@ -45,13 +125,15 @@
                         <span><strong>Back</strong></span>
                     
                     </a> -->
-                    <input type="button" class="but" value="Back" onclick=" relocate_home()">
+                    <!-- <input type="button" class="but" value="Back" onclick=" relocate_home()">
 
                     <script>
                         function relocate_home() {
                             location.href = "{% url 'recipe:my_recipe' %}";
                         } 
-                    </script>
+                    </script> -->
+                    <link href="/static/css/buttons/buttons.css " rel="stylesheet">
+                    <a class="btn btn-danger btn-sm btn-radius" href=" {{request.META.HTTP_REFERER}}">Back</a>
                 </div>
 
             </div>

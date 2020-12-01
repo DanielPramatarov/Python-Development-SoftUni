@@ -124,31 +124,18 @@
                 <div class="card-body">
 
                     <h2 class="title">Registration</h2>
-                    <form method="POST">
-                        <div class="input-group">
-                            {% csrf_token %}
-                            <!-- {% for field in form %}
-                                {{ field.name }}
-                            {% endfor %} -->
-                            <!-- {{  form.username }} -->
-                        </div>
-                        <!-- <div class="row row-space">
-                                <div class="col-2">
-                                    <div class="input-group">
-                                        <label for="{{ form.password1.id_for_label }}"> <h3>Username</h3></label>
-                                        {{ form.username}}
-                                    </div>
-                                </div>
+                    <form method="POST" action="{% url 'accounts:register' %}"
+                        {% csrf_token %} 
+                        
+                      
                                 
-                            </div> -->
-
+                            {% csrf_token %}
                         <div class="input-group">
                             <div class="rs-select2 js-select-simple select--no-search">
                                 <label for="{{ form.username.id_for_label }}">
                                     <h3>Username</h3>
                                 </label>
                                 {{ form.username}}
-                                <!-- {{ form.username.errors }} -->
                                 {{ form.username.errors }}
                             </div>
                         </div>

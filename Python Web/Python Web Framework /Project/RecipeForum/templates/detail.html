@@ -19,14 +19,93 @@
 </head>
 
 <body>
+    <style>
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .navbar {
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        .navbar a {
+          float: left;
+          font-size: 16px;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        .dropdown {
+          float: left;
+          overflow: hidden;
+        }
+        
+        .dropdown .dropbtn {
+          font-size: 16px;  
+          border: none;
+          outline: none;
+          color: white;
+          padding: 14px 16px;
+          background-color: inherit;
+          font-family: inherit;
+          margin: 0;
+        }
+        
+        .navbar a:hover, .dropdown:hover .dropbtn {
+          background-color: #3C69E7 	 	;
+        }
+        
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        
+        .dropdown-content a {
+          float: none;
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+        }
+        
+        .dropdown-content a:hover {
+          background-color: #ddd;
+        }
+        
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+        .dropdown {
+            float: right;
+            width:6%;
+        }
+        </style>
+        
     <ul class="topnav">
         <li class="title"><a href="/">RecipesForum</a></li>
         <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
-        <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
-        <li class="right"><a href="#Profile">Profile</a> </li>
+        
+        <div class="dropdown">
+            <button class="dropbtn">Profile 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{% url 'recipe:my_recipe' %}">My Recipes</a>
+              <a href="{% url 'accounts:User_Profile' %}">My Profile</a> 
+              <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+          </div> 
+        <li class="right"><a href="{% url 'accounts:User_Profile' %}">Profile</a> </li>
         {% elif not user.is_authenticated  %}
         <li class="right"><a href="/admin">login</a></li>
         <li class="right"><a href="#about">about</a></li>
@@ -37,52 +116,55 @@
   
     <div class='recipe-card'>
         <div
-            style="background:url({{recipe.item_image}}) no-repeat 50% 50%; background-size:cover; height: 300px">
+            style="background:url({{recipe.image.url}}) no-repeat 50% 50%; background-size:cover; height: 300px">
 
         </div>
         <div class="recipe-card__body">
             <h1 class="recipe-card__heading">{{ recipe.item_name }}</h1>
-            <h2 class="recipe-card__subhead">{{ recipe.item_desc }}</h2>
-
+            
             <ul class="recipe-card__nav">
-                <li>
-                    <h3 class="active">Ingredients</h3>
-                </li>
-                <li>
-                    <h3>Method</h3>
-                </li>
+              
+              <li>
+                <h3>Method</h3>
+              </li>
+              <h2 class="recipe-card__subhead">{{ recipe.item_desc }}</h2>
             </ul>
 
 
 
+            <h3 class="active">Ingredients</h3>
             <ul class="recipe-card__ingredients">
-                <li>&frac14; cup unsalted butter</li>
-                <li>&frac14; cup vegetable shortening</li>
-                <li>&frac12; cup light brown sugar</li>
-                <li>&frac14; cup granulated sugar</li>
-                <li>1 teaspoon vanilla extract</li>
-                <li>1 &frac14; teaspoons ground cinnamon</li>
-                <li>&#8539; teaspoon ground nutmeg</li>
-                <li>1/2 teaspoon salt</li>
-                <li>1 teaspoon cider or white vinegar*</li>
-                <li>1 large egg</li>
-                <li>&frac12; teaspoon baking soda</li>
-                <li>&frac34; cup All-Purpose Flour</li>
-                <li>1 &frac12; cups rolled oats</li>
-                <li>1 cup golden raisins, optional</li>
+              
+                {% for product in products %}
+                  <li> {{product}}</li>
+                  <!-- <li>&frac14; cup vegetable shortening</li>
+                  <li>&frac12; cup light brown sugar</li>
+                  <li>&frac14; cup granulated sugar</li>
+                  <li>1 teaspoon vanilla extract</li>
+                  <li>1 &frac14; teaspoons ground cinnamon</li>
+                  <li>&#8539; teaspoon ground nutmeg</li>
+                  <li>1/2 teaspoon salt</li>
+                  <li>1 teaspoon cider or white vinegar*</li>
+                  <li>1 large egg</li>
+                  <li>&frac12; teaspoon baking soda</li>
+                  <li>&frac34; cup All-Purpose Flour</li>
+                  <li>1 &frac12; cups rolled oats</li>
+                  <li>1 cup golden raisins, optional</li> -->
+                  {% endfor %}
             </ul>
             <div class="row">
                 
                 <!-- <a href="{% url 'recipe:my_recipe' %}"class="btn btn-danger"> -->
                     <!-- <span class="btn btn-danger btn-xs btn-radius" aria-hidden="true"></span> -->
                     <!-- <span><strong>Back</strong></span> -->
-                    <a class="btn btn-danger btn-sm btn-radius" href="{% url 'recipe:my_recipe' %}">Back</a>
-
+                    <!-- <a class="btn btn-danger btn-sm btn-radius" href="{% url 'recipe:my_recipe' %}">Back</a> -->
+                   
+                    <a class="btn btn-danger btn-sm btn-radius" href=" {{request.META.HTTP_REFERER}}">Back</a>
                             
                     <link href="/static/css/buttons/buttons.css " rel="stylesheet">
                     
                 <!-- </a> -->
-                    {% if user.is_authenticated and initial_user == recipe.user_name %}
+                    {% if  request.user == recipe.user_name   %}
 
                 <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

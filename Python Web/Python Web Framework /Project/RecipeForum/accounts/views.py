@@ -1,9 +1,15 @@
 
 from django.shortcuts import render,redirect, HttpResponse
-from django.contrib.auth import logout
+from django.contrib.auth import logout , login, authenticate
 from django.contrib.auth.forms import  UserCreationForm
 from django.contrib import  messages
 from django.contrib.auth.models import User
+from accounts.models import UserProfile
+from recipe.models import Item
+from accounts.forms import ProfileForm
+from django.contrib import messages
+from django.core.paginator import Paginator
+
 
 
 def logOut(request):
@@ -11,55 +17,45 @@ def logOut(request):
     return render(request, 'logout.html')
 
 
-
-# def register(request):
-   
-#     # form.fields['username'].widget.attrs.update({
-#     #         'placeholder': 'Enter your Username'
-#     #     })
-#     # form.fields['password1'].widget.attrs.update({
-#     #         'placeholder': 'Enter your Passoword'
-#     #     })
-#     # form.fields['password2'].widget.attrs.update({
-#     #         'placeholder': 'Repeat your Passoword'
-#     #     })
-    
-#     if request.method == "POST":
-#         password1 = request.POST['password1']
-#         password2 = request.POST['password2']
-#         user_name = request.POST['username']
-#         # username= form.cleaned_data.get("username")
-#         # passwordvalue1= form.cleaned_data.get("password1")
-#         # passwordvalue2= form.cleaned_data.get("password2")
+def SignUp(request):
+    if request.user.is_authenticated:
+        return redirect('User_Profile')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('pass')
+            repeat_password = request.POST.get('repeat-pass')
+            # password = request.POST.get('password')
         
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             messages.success(request, f'welcome {username}, your account is created')
-#             redirect('recipe:all_recipe')
-#             # return render(request, 'register.html')
-#     else:
-#         form = UserCreationForm()
 
-#     context = {
-#         'form' : form
-#     }
+            user = authenticate(request, username=username, password=password)
 
+            if user is not None:
+                login(request, user)
+                return redirect('accounts:User_Profile')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
 
-
-#     return render(request, 'register.html', context)
-
-
+        
+        context = {}
+        return render(request, 'login.html', context)
 
 
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        
        
         if form.is_valid():
-            # form.save()
-            user_name = request.POST['username']
-            messages.success(request, f'welcome {user_name}, your account is created')
-            return redirect('recipe:all_recipe')
+            user =    form.save()
+            profile = UserProfile(
+                  user =user  
+            ) 
+            profile.save()
+            # user_name = request.POST['username']
+            
+            login(request,user)
+            return redirect('accounts:User_Profile')
     
     form = UserCreationForm()
     form.fields['username'].widget.attrs.update({
@@ -77,17 +73,155 @@ def register(request):
     return render(request, 'register.html', context)
 
 
+def userRecipes(request, pk ):
+    profile = UserProfile.objects.get(pk=pk)
+    recipes = Item.objects.all()
+    user_recipes = []
+
+    for recipe in recipes:
+        if recipe.user_name == profile.user:
+            user_recipes.append(recipe)
+
+
+    context = {
+    'recipes': user_recipes,
+    'profile':profile
+   
+        
+    }
+    return render(request, 'user_recipes.html', context)
+
+
+
+
+
+
+def detailProfile(request, pk):
+    profile = UserProfile.objects.get(pk=pk)
+
+    recipe_count = Item.objects.all()
+    current_user_count_recipes = 0
+
+    if recipe_count != 0:
+        for recipe in recipe_count:
+            
+            if recipe.user_name ==  profile.user:
+                current_user_count_recipes += 1
+
+    # user = User.objects.get(pk=pk)
+    
+
+    
+    context = {
+        'profile': profile,
+        'count': current_user_count_recipes,
+        
+    }
+    return render(request, 'view_user.html', context)
+
+
+
 
 def profiles(request):
 
-    all_users =User.objects.values()
+    all_users = User.objects.values()
+    UserProfiles = UserProfile.objects.all()    
+    for user in UserProfiles:
+        print(user.profile_image)
+
+    paginator = Paginator(UserProfiles, 6) 
+
+    page_number = request.GET.get('page')
+    UserProfiles = paginator.get_page(page_number)
+
     context = {
-        'users': all_users
+        'users': UserProfiles,
+        'all_users':UserProfiles,
+        
     }
 
 
     return render(request, 'profiles.html', context)
 
+
+
+
+def edit_profile(request):
+    profile = ""
+    UserProfiles = UserProfile.objects.all()
+    for prof in UserProfiles:
+        if request.user == prof.user:
+            profile = prof
+    if request.method == 'GET':
+        context = {
+            'profile': profile,
+            'form': ProfileForm(instance=profile),
+        }
+
+        return render(request, 'edit_profile.html', context)
+
+    elif  request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES,  instance=profile )
+        if form.is_valid():
+            form.save() 
+            return redirect('accounts:User_Profile')
+        context = {
+            'profile': profile,
+            'form': ProfileForm(instance=profile),
+        }
+
+        return render(request, 'edit_profile.html', context)
+        
+
+
+def User_Profile(request):
+    profile = ""
+    UserProfiles = UserProfile.objects.all()
+    for prof in UserProfiles:
+        if request.user == prof.user:
+            profile = prof
+
+   
+    recipe_count = Item.objects.all()
+    current_user_count_recipes = 0
+    status = ""
+
+    all_recipes = Item.objects.all()
+    users_recipes = []
+
+
+    for recipe in all_recipes:
+
+        if recipe.user_name == request.user:
+            users_recipes.append(recipe)
+
+    
+
+    
+    if recipe_count != 0:
+        for recipe in recipe_count:
+            
+            if recipe.user_name ==  profile.user:
+                current_user_count_recipes += 1
+
+    
+    if request.user.is_active:
+        status = "active"
+    else:
+        status = "offline"
+    context = {
+        'profile': profile,
+        'count': current_user_count_recipes,
+        'status':status,
+        'user_recipes': users_recipes,
+    }
+
+    
+
+
+    return render(request, 'User_profiles.html', context)
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++?
 
 
 # from django.shortcuts import render

@@ -7,28 +7,37 @@ from recipe.forms import ItemForm, DeleteRecipeForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from django.core.paginator import Paginator
 # from django.contrib.auth import logout
 from django import forms
 
 
+
 def create_recipe(request):
 
+
+
     form = ItemForm()
+
     form.fields['item_name'].widget.attrs.update({
             'placeholder': 'Enter Recipe Name'
         })
     initial_user = {'user_name': request.user}
     form = ItemForm(initial=initial_user)
+
     if request.method == 'POST':
-        form = ItemForm(request.POST)
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             form.fields['user_name'].widget = forms.HiddenInput()
 
             form.save()
 
             return redirect('/my_recipe/')
+
+
     context = {'form': form, 'initial_user': initial_user['user_name']}
     return render(request, 'create.html', context)
+
 
 
 def delete_recipe(request, pk):
@@ -51,10 +60,12 @@ def detail_recipe(request, pk):
     # products = Item.ingredients.split(", ")
     # initial_user = {'user_name': request.user}
     all_recipes = Item.objects.all()
+    products = recipe.ingredients.split(", ")
 
     context = {
             'recipe': recipe,
             'user_name': request.user,
+            'products':products,
             # 'recipe': recipe,
             # 'products':products,
         }
@@ -76,7 +87,7 @@ def edit_recipe(request, pk):
 
         return render(request, 'edit.html', context)
     elif request.method == 'POST':
-        form = ItemForm(request.POST, instance=recipe)
+        form = ItemForm(request.POST, request.FILES, instance=recipe)
 
         if form.is_valid():
             form.save()
@@ -84,7 +95,7 @@ def edit_recipe(request, pk):
 
         context = {
             'recipe': recipe,
-            'form': form,
+            'form': ItemForm(    instance=recipe),
         }
 
         return render(request, 'edit.html', context)
@@ -104,15 +115,18 @@ def user_recipes(request):
     users_recipes = []
 
     for recipe in all_recipes:
-        print(recipe.user_name)
 
         if recipe.user_name == request.user:
             users_recipes.append(recipe)
+    paginator = Paginator(users_recipes, 6) 
+
+    page_number = request.GET.get('page')
+    users_recipes = paginator.get_page(page_number)
+
 
     context = {'user_recipes': users_recipes}
 
-    for i in users_recipes:
-        i.item_time_to_cook
+ 
     return render(request, 'my_recipes.html', context)
 
 
@@ -120,9 +134,16 @@ def all_recipes(request):
     all_recipes = Item.objects.all()
 
 
- 
+    paginator = Paginator(all_recipes, 6) 
 
-    context = {'all_recipes': all_recipes}
+    page_number = request.GET.get('page')
+    all_recipes = paginator.get_page(page_number)
+
+    context = {
+        'all_recipes': all_recipes,
+        # 'page_obj':page_obj,
+        }
+
 
  
     return render(request, 'all_ricepes.html', context)

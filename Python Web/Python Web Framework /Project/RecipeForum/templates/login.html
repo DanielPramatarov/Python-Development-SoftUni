@@ -2,38 +2,207 @@
 <html lang="en">
 <head>
 	<title>Login V13</title>
+	{% load static %}
 
 
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="../static/images/fonts/favicon.ico"/>
+	<link rel="icon" type="image/png" href="{%  static 'images/fonts/favicon.ico' %}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'vendor/bootstrap/css/bootstrap.min.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="{%  static ' vendor/animate/animate.css' %}">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static ' vendor/css-hamburgers/hamburgers.min.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'vendor/animsition/css/animsition.min.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'vendor/select2/select2.min.css' %}">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="../static/vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'vendor/daterangepicker/daterangepicker.css' %}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../static/css/util.css">
-	<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+	<link rel="stylesheet" type="text/css" href="{%  static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%  static 'css/main.css' %}">
 <!--===============================================================================================-->
 </head>
 
+<style>
+	@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i,600,700');
+//Color-palette
+$black: #66615B;
+$grey: #ccc;
+$white: #fff;
+$yellow: #ff0;
+$green: #8bc34a;
+$blue: #29d2e4;
+$orange: #f87d09;
+$dark-pink: #e91e63;
+$purple: #9c27b0;
+$light-purple: #efedff;
+//Body
+$main-background: $light-purple;
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font: normal 16px/1.2 'Josefin Sans', sans-serif;
+  background: $main-background;
+}
+
+.title {
+  font-weight: normal;
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+.section {
+  padding: 50px 0;
+  .alert{
+    &:not(:first-child){
+      margin-top: 15px;
+    }
+  }
+}
+
+// Alerts
+@mixin alert-variant($alert-vertical-padding,
+$alert-horizontal-padding,
+$background,
+$border-color,
+$text-color) {
+  background-color: $background;
+  border: 1px solid $border-color;
+  color: $text-color;
+  padding: $alert-vertical-padding $alert-horizontal-padding;
+  .alert-icon {
+    float: left;
+    margin-right: 15px;
+  }
+  .alert-info {
+    margin: 0 10px 0 0;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 14px;
+  }
+  .alert-container {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .close-icon {
+    float: right;
+    color: #000;
+    margin-top: 0;
+    margin-left: 0;
+    width: 21px;
+    height: 21px;
+    position: relative;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-indent: -999px;
+    overflow: hidden;
+    white-space: nowrap;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      width: 15px;
+      height: 2px;
+      left: 0;
+    }
+    &:before {
+      background-color: #fff;
+      transform: rotate(-45deg);
+    }
+    &:after {
+      background-color: #fff;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.alert {
+  @include alert-variant(15px,
+  20px,
+  $blue,
+  $blue,
+  #fff);
+  &.alert-custom {
+    @include alert-variant(null,null,$black,$black,null);
+  }
+  &.alert-info {
+    @include alert-variant(null,null,$blue,$blue,null);
+  }
+  &.alert-success {
+    @include alert-variant(null,null,$green,$green,null);
+  }
+  &.alert-warning {
+    @include alert-variant(null,null,$orange,$orange,null);
+  }
+  &.alert-danger {
+    @include alert-variant(null,null,$dark-pink,$dark-pink,null);
+  }
+}
+</style>
+
+<style>
+	 /* Add a black background color to the top navigation */
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add an active class to highlight the current page */
+.topnav a.active {
+  background-color: #3C69E7;
+  color: white;
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+  display: none;
+} 
+</style>
+ <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+ 
 <body style="background-color: #999999;">
 
 	
@@ -41,26 +210,27 @@
 	<div class="limiter">
 		
 		<div class="container-login100">
-			<div class="login100-more" style="background-image: url('../static/images/bg-heading-02.jpg');"></div>
+			<div class="login100-more" style="background-image: url('/static/images/bg-heading-02.jpg');"></div>
 
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
-				<form class="login100-form validate-form">
+				<!-- <form class="login100-form validate-form"> -->
+				<form class="login100-form validate-form" method="POST" action="{% url 'accounts:login' %}">
 					<span class="login100-form-title p-b-59">
 						Sign Up
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate="Name is required">
+					<!-- <div class="wrap-input100 validate-input" data-validate="Name is required">
 						<span class="label-input100">Full Name</span>
 						<input class="input100" type="text" name="name" placeholder="Name...">
 						<span class="focus-input100"></span>
-					</div>
+					</div> -->
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+					<!-- <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 						<span class="label-input100">Email</span>
 						<input class="input100" type="text" name="email" placeholder="Email addess...">
 						<span class="focus-input100"></span>
-					</div>
-
+					</div> -->
+					{% csrf_token %}
 					<div class="wrap-input100 validate-input" data-validate="Username is required">
 						<span class="label-input100">Username</span>
 						<input class="input100" type="text" name="username" placeholder="Username...">
@@ -82,14 +252,14 @@
 					<div class="flex-m w-full p-b-33">
 						<div class="contact100-form-checkbox">
 							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
+							<!-- <label class="label-checkbox100" for="ckb1">
 								<span class="txt1">
 									I agree to the
 									<a href="#" class="txt2 hov1">
 										Terms of User
 									</a>
 								</span>
-							</label>
+							</label> -->
 						</div>
 
 						
@@ -103,36 +273,49 @@
 							</button>
 						</div>
 
-						<a href="#" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+						<a href="{% url 'accounts:register' %}" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
 							Sign in
 							<i class="fa fa-long-arrow-right m-l-5"></i>
 						</a>
-						<a href="#" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+						<a href="{% url 'recipe:all_recipe' %}" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
 							Go Back
 							<i class="fa fa-long-arrow-left m-l-5"></i>
 						</a>
 					</div>
 				</form>
+				{% for message in messages %}
+						<div class="alert alert-warning">
+							<div class="alert-container">
+							  <div class="alert-icon">
+								<i class="fa fa-warning"></i>
+							  </div>
+							  <button type="button" class="close-icon" data-dismiss="alert" aria-label="Close">
+												<span>CLOSE </span>
+							  </button>
+							  <b class="alert-info">Warning alert:</b> {{message}}
+							</div>
+						  </div>
+				{% endfor %}	
 			</div>
 		</div>
 	</div>
 	
 <!--===============================================================================================-->
-	<script src="../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="{%  static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->
-	<script src="../static/vendor/animsition/js/animsition.min.js"></script>
+	<script src="{%  static 'vendor/animsition/js/animsition.min.js' %}"></script>
 <!--===============================================================================================-->
-	<script src="../static/vendor/bootstrap/js/popper.js"></script>
-	<script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="{%  static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{%  static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 <!--===============================================================================================-->
-	<script src="../static/vendor/select2/select2.min.js"></script>
+	<script src="{%  static 'vendor/select2/select2.min.js' %}"></script>
 <!--===============================================================================================-->
-	<script src="../static/vendor/daterangepicker/moment.min.js"></script>
-	<script src="../static/vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="{%  static 'vendor/daterangepicker/moment.min.js'%}"></script>
+	<script src="{%  static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
 <!--===============================================================================================-->
-	<script src="../static/vendor/countdowntime/countdowntime.js"></script>
+	<script src="{%  static 'vendor/countdowntime/countdowntime.js' %}"></script>
 <!--===============================================================================================-->
-	<script src="../static/js/main.js"></script>
+	<script src=".{%  static 'js/main.js' %}"></script>
 
 </body>
 </html>
