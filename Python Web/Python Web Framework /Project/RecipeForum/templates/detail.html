@@ -137,33 +137,22 @@
               
                 {% for product in products %}
                   <li> {{product}}</li>
-                  <!-- <li>&frac14; cup vegetable shortening</li>
-                  <li>&frac12; cup light brown sugar</li>
-                  <li>&frac14; cup granulated sugar</li>
-                  <li>1 teaspoon vanilla extract</li>
-                  <li>1 &frac14; teaspoons ground cinnamon</li>
-                  <li>&#8539; teaspoon ground nutmeg</li>
-                  <li>1/2 teaspoon salt</li>
-                  <li>1 teaspoon cider or white vinegar*</li>
-                  <li>1 large egg</li>
-                  <li>&frac12; teaspoon baking soda</li>
-                  <li>&frac34; cup All-Purpose Flour</li>
-                  <li>1 &frac12; cups rolled oats</li>
-                  <li>1 cup golden raisins, optional</li> -->
+                  
                   {% endfor %}
             </ul>
+            <div>
+              <p> </p>
+            <strong>likes - {{likes}}</strong>
+            <p> </p>
+            <strong>Dislikes - {{dislikes}}</strong>
+          </div>
             <div class="row">
+              
                 
-                <!-- <a href="{% url 'recipe:my_recipe' %}"class="btn btn-danger"> -->
-                    <!-- <span class="btn btn-danger btn-xs btn-radius" aria-hidden="true"></span> -->
-                    <!-- <span><strong>Back</strong></span> -->
-                    <!-- <a class="btn btn-danger btn-sm btn-radius" href="{% url 'recipe:my_recipe' %}">Back</a> -->
-                   
                     <a class="btn btn-danger btn-sm btn-radius" href=" {{request.META.HTTP_REFERER}}">Back</a>
                             
                     <link href="/static/css/buttons/buttons.css " rel="stylesheet">
                     
-                <!-- </a> -->
                     {% if  request.user == recipe.user_name   %}
 
                 <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
@@ -173,8 +162,48 @@
                     {%   endif %}
                 
 
-                
-                
+                    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css'>
+                    <style>
+                        a.like {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  line-heigth: 50px;
+  border-radius: 50%;
+  color: #009688;
+  background-color: rgba(38, 166, 154, 0.3);
+  border-color: #009688;
+  border-width: 1px;
+  font-size: 15px;
+}
+
+a.dislike {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  margin-left: 15%;
+  line-heigth: 50px;
+  border-radius: 50%;
+  color: #ff5252;
+  background-color: rgba(255, 138, 128, 0.3);
+  border-color: #ff5252;
+  border-width: 1px;
+  font-size: 15px;
+}
+
+
+                    </style>
+
+<a href="{% url 'recipe:dislikes' recipe.id %}" class="btn btn-danger btn-radius">
+  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+  <span><strong>Dislike</strong></span>
+</a>
+<a href="{% url 'recipe:likes' recipe.id %}" class="btn btn-primary btn-radius">
+  <span class=" 	glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+  <span><strong>like</strong></span>
+</a>
+
+       
                
             </div>
         </div>

@@ -1,7 +1,7 @@
 from recipe import views
 from django.urls import path
 
-from  accounts.views import logOut, register, profiles, User_Profile,edit_profile, SignUp, detailProfile , userRecipes
+from  accounts.views import logOut, register, profiles, User_Profile,edit_profile, SignUp, detailProfile , userRecipes ,change_password
 
 
 app_name = 'accounts'  
@@ -16,6 +16,7 @@ urlpatterns = [
     # path('profile/(?P<username>[a-zA-Z0-9]+)$', detailProfile, name='detail_profile'),
     path('viewProfile/<int:pk>/',detailProfile,name='detail_profile'),
     path('MyRiceps/<int:pk>/',userRecipes,name='user_recipes'),
+    path('changepass/',change_password,name='change_password'),
 
 
     

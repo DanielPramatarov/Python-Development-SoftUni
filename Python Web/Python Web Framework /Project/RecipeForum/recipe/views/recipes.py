@@ -10,12 +10,29 @@ from django.views.generic.edit import CreateView
 from django.core.paginator import Paginator
 # from django.contrib.auth import logout
 from django import forms
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
+
+def like(request, pk):
+    recipe = Item.objects.get(pk=pk)
+    if recipe.Dislikes.filter(id=request.user.id).exists():
+        recipe.Dislikes.remove(request.user)
+    recipe.likes.add(request.user)
+    return HttpResponseRedirect(reverse('recipe:detail', args=[str(pk)]))
+
+
+
+def dislike(request, pk):
+    recipe = Item.objects.get(pk=pk)
+
+    if recipe.likes.filter(id=request.user.id).exists():
+        recipe.likes.remove(request.user)
+    recipe.Dislikes.add(request.user)
+    return HttpResponseRedirect(reverse('recipe:detail', args=[str(pk)]))
 
 
 def create_recipe(request):
-
-
 
     form = ItemForm()
 
@@ -59,6 +76,8 @@ def detail_recipe(request, pk):
     recipe = Item.objects.get(pk=pk)
     # products = Item.ingredients.split(", ")
     # initial_user = {'user_name': request.user}
+    likes = recipe.likes.count()
+    dislikes  = recipe.Dislikes.count()
     all_recipes = Item.objects.all()
     products = recipe.ingredients.split(", ")
 
@@ -66,8 +85,8 @@ def detail_recipe(request, pk):
             'recipe': recipe,
             'user_name': request.user,
             'products':products,
-            # 'recipe': recipe,
-            # 'products':products,
+            'likes': likes,
+            'dislikes':dislikes,
         }
 
 
@@ -132,6 +151,7 @@ def user_recipes(request):
 
 def all_recipes(request):
     all_recipes = Item.objects.all()
+    
 
 
     paginator = Paginator(all_recipes, 6) 

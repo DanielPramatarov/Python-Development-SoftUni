@@ -9,8 +9,27 @@ from recipe.models import Item
 from accounts.forms import ProfileForm
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.contrib.auth.models import Group
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {
+        'form': form
+    })  
 
 def logOut(request):
     logout(request)
@@ -52,6 +71,8 @@ def register(request):
                   user =user  
             ) 
             profile.save()
+            group = Group.objects.get(name='Users')
+            user.groups.add(group)
             # user_name = request.POST['username']
             
             login(request,user)
@@ -189,10 +210,13 @@ def User_Profile(request):
     all_recipes = Item.objects.all()
     users_recipes = []
 
-
+    dislikes = 0
+    likes = 0
     for recipe in all_recipes:
 
         if recipe.user_name == request.user:
+            likes += recipe.likes.count()
+            dislikes += recipe.Dislikes.count()
             users_recipes.append(recipe)
 
     
@@ -209,11 +233,17 @@ def User_Profile(request):
         status = "active"
     else:
         status = "offline"
+
+
+    
     context = {
         'profile': profile,
         'count': current_user_count_recipes,
         'status':status,
         'user_recipes': users_recipes,
+        'likes':likes,
+        'dislikes':dislikes,
+        
     }
 
     

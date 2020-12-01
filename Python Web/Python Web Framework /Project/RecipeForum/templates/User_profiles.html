@@ -655,53 +655,54 @@ textarea.form-control {
                     <span class="label label-danger">User</span>
                     {% endif %}
                 </div>
-
                 <div class="profile-stars">
+					{% if user.is_superuser %}
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<span>Super User</span>
+					{% else %}
+					<i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star-o"></i>
-                    <span>Super User</span>
+					<i class="fa fa-star-o"></i>
+                    <span>User</span>
+					{% endif %}
                 </div>
 
-                <div class="profile-since">
-                    Member since: Jan 2012
-                </div>
 
                 <div class="profile-details">
                     <ul class="fa-ul">
                         <!-- <li><i class="fa-li fa fa-truck"></i>Orders: <span>456</span></li> -->
                         <li> <i class="fa-li fa fa-align-center"></i>My Recipes: <span>{{count}}</span></li>
                        
-                        <li><i class="fa-li fa fa-thumbs-up"></i>Likes: <span>828</span></li>
-                        <li> <i class="fa-li fa fa-thumbs-down"></i>dislikes : <span>828</span></li>
+                        <li><i class="fa-li fa fa-thumbs-up"></i>Likes: <span>{{likes}}</span></li>
+                        <li> <i class="fa-li fa fa-thumbs-down"></i>dislikes : <span>{{dislikes}}</span></li>
 
                        
-                        <li><i class="fa-li fa fa-tasks"></i>Tasks done: <span>1024</span></li>
                     </ul>
                 </div>
 
-                <div class="profile-message-btn center-block text-center">
-                    <a href="#" class="btn btn-success">
-                        <i class="fa fa-envelope"></i> Send message
-                    </a>
-                </div>
             </div>
         </div>
 
         <div class="col-lg-9 col-md-8 col-sm-8">
             <div class="main-box clearfix">
                 <div class="profile-header">
-                    <h3><span>User info</span></h3>
-                    <a href="{% url 'accounts:edit_profile'  %}" class="btn btn-primary edit-profile">
-                        <i class="fa fa-pencil-square fa-lg"></i> Edit profile
-                    </a>
+					
+					
+					<h3><span>User info</span></h3>
+					
+                    
                 </div>
+						
 
                 <div class="row profile-user-info">
-                    <div class="col-sm-8">
-                        <div class="profile-user-details clearfix">
+					<div class="col-sm-8">
+						<div class="profile-user-details clearfix">
                             <div class="profile-user-details-label">
                                Username
                             </div>
@@ -799,11 +800,20 @@ textarea.form-control {
                             <li><i class="fa-li fa fa-instagram"></i><a href="#">{{ profile.instagram_url }}</a></li>
                         </ul>
                     </div>
-                </div>
+						<link href="/static/css/buttons/buttons.css " rel="stylesheet">
+			
+							<a href="{% url 'accounts:edit_profile'  %}" class="btn btn-warning btn-xs btn-radius">
+								<i class="fa fa-pencil-square fa-lg"></i> Edit profile
+							</a>
+							
+							<a href="{% url 'accounts:change_password'  %}" class="btn btn-info btn-xs btn-radius">
+								<i class="fa fa-pencil-square fa-lg"></i> Change Passoword
+							</a>
+						</div>
 
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-activity" data-toggle="tab">Recipes</a></li>
+                        <!-- <li class="active"><a href="#tab-activity" data-toggle="tab">Recipes</a></li> -->
                         <!-- <li><a href="#tab-friends" data-toggle="tab">Friends</a></li> -->
                         <!-- <li><a href="#tab-chat" data-toggle="tab">Chat</a></li> -->
                     </ul>

@@ -5,6 +5,7 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = '__all__'
+        exclude = ('likes','Dislikes')
         widgets = {'user_name': forms.HiddenInput(),
                    'item_name' : forms.TextInput(attrs = {'placeholder': 'Recipe Name'}),
                    'item_desc' : forms.Textarea (attrs = {'placeholder': 'Enter Recipe Description'}),

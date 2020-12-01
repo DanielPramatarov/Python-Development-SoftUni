@@ -12,6 +12,9 @@ class Item(models.Model):
     ingredients = models.CharField(max_length=250)
     item_time_to_cook = models.IntegerField()
     image = models.ImageField( upload_to="Recipes/") 
+    likes = models.ManyToManyField(User, related_name='likes',blank=True)
+    Dislikes = models.ManyToManyField(User, related_name='dislikes' , blank=True)
+
  
     
 

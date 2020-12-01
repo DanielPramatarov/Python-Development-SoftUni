@@ -1,7 +1,7 @@
 from recipe import views
 from django.urls import path
 
-from recipe.views.recipes import  index, create_recipe, user_recipes, delete_recipe, edit_recipe , detail_recipe , all_recipes
+from recipe.views.recipes import  index, create_recipe, user_recipes, delete_recipe, edit_recipe , detail_recipe , all_recipes, like ,dislike
 # from recipe.views.authentication import  loggin_out
 
 
@@ -24,4 +24,6 @@ urlpatterns = [
     path('delete/<int:pk>/',views.delete_recipe,name='delete'),
     #detail Recipe
     path('detail/<int:pk>/',views.detail_recipe,name='detail'),
+    path('like/<int:pk>/',views.like,name='likes'),
+    path('dislike/<int:pk>/',views.dislike,name='dislikes'),
 ]    
