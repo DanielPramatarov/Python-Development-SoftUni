@@ -625,15 +625,32 @@ textarea.form-control {
     -webkit-box-shadow: none;
 }
 
-    </style>
+	</style>
+	
+	
 </head>
 <body>
-    {% load static %}
+	{% load static %}
+	
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container bootstrap snippets bootdeys">
+	
     <div class="row" id="user-profile">
-        <div class="col-lg-3 col-md-4 col-sm-4">
-            <div class="main-box clearfix">
+		<div class="col-lg-3 col-md-4 col-sm-4">
+			<!-- <ul class="topnav">
+				<li class="title"><a href="{% url 'recipe:all_recipe' %}">Ricep Forum</a></li>
+				{% if user.is_authenticated %}
+				<li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
+				<li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
+				<li><a href="{% url 'accounts:User_Profile' %}">My Profile</a> </li>
+				<li> <a href="{% url 'accounts:logout' %}">Logout</a></li>
+			   
+				{% elif not user.is_authenticated  %}
+				<li class="right"><a href="{% url 'accounts:login' %}">login</a></li>
+				{% endif %} 
+			</ul>-->
+			{%  include 'delnavbar.html' %} 
+			<div class="main-box clearfix">
                 <h3>{{ profile.firstname }}  {{ profile.lastname }} </h3>
                 <div class="profile-status">
                     <i class="fa    fa-check-circle"></i>  {{ status }}
@@ -793,15 +810,12 @@ textarea.form-control {
                     </div>
                     <div class="col-sm-4 profile-social">
                         <ul class="fa-ul">
-                            <li><i class="fa-li fa fa-twitter-square"></i><a href="#">@scjohansson</a></li>
-                            <li><i class="fa-li fa fa-linkedin-square"></i><a href="#">John Doe </a></li>
+                            <li><i class="fa-li fa fa-twitter-square"></i><a href="#">{{ profile.twitter_url }}</a></li>
                             <li><i class="fa-li fa fa-facebook-square"></i><a href="#"> {{ profile.facebook_url }}</a></li>
-                            <li><i class="fa-li fa fa-skype"></i><a href="#">Black_widow</a></li>
                             <li><i class="fa-li fa fa-instagram"></i><a href="#">{{ profile.instagram_url }}</a></li>
                         </ul>
                     </div>
 						<link href="/static/css/buttons/buttons.css " rel="stylesheet">
-			
 							<a href="{% url 'accounts:edit_profile'  %}" class="btn btn-warning btn-xs btn-radius">
 								<i class="fa fa-pencil-square fa-lg"></i> Edit profile
 							</a>
@@ -809,6 +823,11 @@ textarea.form-control {
 							<a href="{% url 'accounts:change_password'  %}" class="btn btn-info btn-xs btn-radius">
 								<i class="fa fa-pencil-square fa-lg"></i> Change Passoword
 							</a>
+							{% if request.user.is_superuser %}
+							<a href="/admin" class="btn btn-primary btn-radius">
+								<i class="fa fa-lock fa-lg"></i> admin panel
+							</a>
+							{% endif %}
 						</div>
 
                 <div class="tabs-wrapper profile-tabs">

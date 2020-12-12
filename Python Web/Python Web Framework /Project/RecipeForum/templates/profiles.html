@@ -52,16 +52,17 @@
     <link rel="stylesheet" href="/static/css/navbar.css">
 
     <ul class="topnav">
-        <li class="title"><a href="/">RecipesForum</a></li>
-        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
+        <li class="title"><a href="{% url 'recipe:all_recipe' %}">Ricep Forum</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
-        <li class="right"><a href="#Profile">Profile</a> </li>
-        {% elif not user.is_authenticated  %}
-        <li class="right"><a href="/admin">login</a></li>
-        <li class="right"><a href="#about">about</a></li>
+        <li><a href="{% url 'accounts:User_Profile' %}">My Profile</a> </li>
+        <li> <a href="{% url 'accounts:profiles' %}">All Profiles</a></li>
+        <li> <a href="{% url 'accounts:logout' %}">Logout</a></li>
+
+
+        
+     
         {% endif %}
     </ul>
 

@@ -107,8 +107,8 @@
           </div> 
         <li class="right"><a href="{% url 'accounts:User_Profile' %}">Profile</a> </li>
         {% elif not user.is_authenticated  %}
-        <li class="right"><a href="/admin">login</a></li>
-        <li class="right"><a href="#about">about</a></li>
+        <li class="right"><a href="{% url 'accounts:register' %}">Register</a></li>
+        <li class="right"><a href="{% url 'accounts:login' %}">Login</a></li>
         {% endif %}
     </ul>
 
@@ -125,14 +125,14 @@
             <ul class="recipe-card__nav">
               
               <li>
-                <h3>Method</h3>
+                <h3>Prepare Method:</h3>
               </li>
               <h2 class="recipe-card__subhead">{{ recipe.item_desc }}</h2>
             </ul>
 
 
 
-            <h3 class="active">Ingredients</h3>
+            <h3 class="active">Ingredients:</h3>
             <ul class="recipe-card__ingredients">
               
                 {% for product in products %}

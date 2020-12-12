@@ -12,6 +12,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -22,7 +23,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+            return redirect('accounts:User_Profile')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -34,6 +35,7 @@ def change_password(request):
 def logOut(request):
     logout(request)
     return render(request, 'logout.html')
+    # redirect('recipe:all_recipe')
 
 
 def SignUp(request):
@@ -44,10 +46,13 @@ def SignUp(request):
             username = request.POST.get('username')
             password = request.POST.get('pass')
             repeat_password = request.POST.get('repeat-pass')
+            if repeat_password == password:
             # password = request.POST.get('password')
-        
+                user = authenticate(request, username=username, password=password)
+            else:
+                context = {}
+                return render(request, 'login.html', context)
 
-            user = authenticate(request, username=username, password=password)
 
             if user is not None:
                 login(request, user)
@@ -63,6 +68,7 @@ def SignUp(request):
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        
         
        
         if form.is_valid():
@@ -93,20 +99,35 @@ def register(request):
     }
     return render(request, 'register.html', context)
 
+@login_required(login_url='accounts:login')
 
 def userRecipes(request, pk ):
     profile = UserProfile.objects.get(pk=pk)
     recipes = Item.objects.all()
     user_recipes = []
 
+
+
+    # recipes = Item.objects.all()
+    
+
+
+   
     for recipe in recipes:
         if recipe.user_name == profile.user:
             user_recipes.append(recipe)
 
 
+
+    paginator = Paginator(user_recipes, 6) 
+
+    page_number = request.GET.get('page')
+    user_recipes = paginator.get_page(page_number)
+
     context = {
     'recipes': user_recipes,
-    'profile':profile
+    'profile':profile,
+    'user_recipes': user_recipes,
    
         
     }
@@ -120,8 +141,34 @@ def userRecipes(request, pk ):
 def detailProfile(request, pk):
     profile = UserProfile.objects.get(pk=pk)
 
+
     recipe_count = Item.objects.all()
     current_user_count_recipes = 0
+    all_recipes = Item.objects.all()
+    users_recipes = []
+    group_users = Group.objects.get(name='Users')
+    group_admins = Group.objects.get(name='Admins')
+
+
+
+
+    dislikes = 0
+    likes = 0
+    for recipe in all_recipes:
+
+        if recipe.user_name == profile.user:
+            likes += recipe.likes.count()
+            dislikes += recipe.Dislikes.count()
+            users_recipes.append(recipe)
+
+    
+
+    
+    # if recipe_count != 0:
+    #     for recipe in recipe_count:
+            
+    #         if recipe.user_name ==  profile.user:
+    #             current_user_count_recipes += 1
 
     if recipe_count != 0:
         for recipe in recipe_count:
@@ -136,6 +183,10 @@ def detailProfile(request, pk):
     context = {
         'profile': profile,
         'count': current_user_count_recipes,
+        'user_recipes': users_recipes,
+        'likes':likes,
+        'dislikes':dislikes,
+        'is_super_user':profile.user.is_superuser,
         
     }
     return render(request, 'view_user.html', context)
@@ -252,55 +303,4 @@ def User_Profile(request):
     return render(request, 'User_profiles.html', context)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++?
-
-
-# from django.shortcuts import render
-# from .forms import Signupform
-# from django.contrib.auth.models import User
-# from django.contrib.auth import authenticate, login
-
-
-# def signup(request):
-#     firstname=''
-#     lastname=''
-#     emailvalue=''
-#     uservalue=''
-#     passwordvalue1=''
-#     passwordvalue2=''
-
-#     form= Signupform(request.POST or None)
-#     if form.is_valid():
-#         fs= form.save(commit=False)
-#         firstname= form.cleaned_data.get("first_name")
-#         lastname= form.cleaned_data.get("last_name")
-#         emailvalue= form.cleaned_data.get("email")
-#         uservalue= form.cleaned_data.get("username")
-#         passwordvalue1= form.cleaned_data.get("password1")
-#         passwordvalue2= form.cleaned_data.get("password2")
-#         if passwordvalue1 == passwordvalue2:
-#             try:
-#                 user= User.objects.get(username=uservalue)
-#                 context= {'form': form, 'error':'The username you entered has already been taken. Please try another username.'}
-#                 return render(request, 'siteusers/signup.html', context)
-#             except User.DoesNotExist:
-#                 user= User.objects.create_user(uservalue, password= passwordvalue1, email=emailvalue)
-               
-# 		user.save()
-
-#                 login(request,user)
-
-#                 fs.user= request.user
-
-#                 fs.save()
-#                 context= {'form': form}
-#                 return render(request, 'siteusers/signup.html', context)
-            
-#         else:
-#             context= {'form': form, 'error':'The passwords that you provided don\'t match'}
-#             return render(request, 'siteusers/signup.html', context)
-        
-
-#     else:
-#         context= {'form': form}
-#         return render(request, 'siteusers/signup.html', context)
 

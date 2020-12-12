@@ -93,26 +93,14 @@
     <link rel="stylesheet" href="/static/css/navbar.css">
 
     <ul class="topnav">
-        <li class="title"><a href="/">Recipes Forum</a></li>
-        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
+        <li class="title"><a href="{% url 'recipe:all_recipe' %}">Ricep Forum</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
         <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
-        <div class="dropdown">
-            <button class="dropbtn">Profile 
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="#">Link 1</a>
-              <a href="#">Link 2</a>
-              <a href="#">Link 3</a>
-            </div>
-          </div> 
+       
         <!-- <li class="right"><a href="#Profile">Profile</a> </li> -->
-        {% elif not user.is_authenticated  %}
-        <li class="right"><a href="/admin">login</a></li>
-        <li class="right"><a href="#about">about</a></li>
+        
         {% endif %}
     </ul>
 
@@ -176,7 +164,7 @@
                         <div class="p-t-30">
                             <!-- <button class="btn btn--radius btn--green" type="submit">Register</button> -->
                             <!-- <button  type="submit" class="btn btn-danger btn-xs btn-radius">Back</button> -->
-                            <a class="btn btn-danger btn-xs btn-radius" href="{% url 'recipe:my_recipe' %}">Back</a>
+                            <a class="btn btn-danger btn-xs btn-radius" href="{{request.META.HTTP_REFERER|escape}}">Back</a>
 
                             
                             <!-- <input type="submit" value="Register" class="btn btn--radius btn--green" /> -->

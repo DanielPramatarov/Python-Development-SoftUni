@@ -68,13 +68,19 @@
                     <a href="#">
                         <h3 class="card-movie-title">{{ recipe.item_name }}</h3>
                     </a>
-                    <div class="ratings"><span>{{likes}}</span>/10</div>
+                    <div class="ratings"><span>likes:{{recipe.likes.count}} Dislikes:{{recipe.Dislikes.count}} </span></div>
+
                 </div>
                 <div class="card-movie-info">
-                    <div class="movie-running-time">
+                    <!-- <div class="movie-running-time">
                         <label>Last update</label>
 
-                    </div>
+                    </div> -->
+                    <label>Author</label>
+                    <p1>
+                        {{ recipe.user_name }}
+
+                    </p1>
 
                     <div class="movie-running-time">
                         <label>Time to be cooked</label>

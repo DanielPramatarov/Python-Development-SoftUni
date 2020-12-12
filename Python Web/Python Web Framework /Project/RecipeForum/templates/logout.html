@@ -10,21 +10,55 @@
 <body>
    
     <ul class="topnav">
-        <li class="title"><a href="/">RecipesForum</a></li>
-        <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li>
+        <li class="title"><a href="{% url 'recipe:all_recipe' %}">Ricep Forum</a></li>
+        <!-- <li><a href="{% url 'recipe:all_recipe' %}">All recipes</a></li> -->
         {% if user.is_authenticated %}
         <li><a href="{% url 'recipe:create' %}">Add Recipe</a></li>
         <li><a href="{% url 'recipe:my_recipe' %}">My Recipes</a></li>
-        <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
-        <li class="right"><a href="#Profile">Profile</a> </li>
+        <li><a href="{% url 'accounts:User_Profile' %}">My Profile</a> </li>
+        <li> <a href="{% url 'accounts:profiles' %}">All Profiles</a></li>
+        <li> <a href="{% url 'accounts:logout' %}">Logout</a></li>
+
+        <!-- <li class="right"><a href="{% url 'accounts:logout' %}">Logout</a> </li>
+        <li class="right"><a href="{% url 'accounts:User_Profile' %}">Profile</a> </li> -->
+        <!-- <div class="dropdown">
+            <button class="dropbtn">Profile 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{% url 'recipe:my_recipe' %}">My Recipes</a>
+              <a href="{% url 'accounts:User_Profile' %}">My Profile</a> 
+              <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+          </div>         -->
+          <!-- <div class="dropdown">
+            <button class="dropbtn">Profile 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{% url 'recipe:my_recipe' %}">My Recipes</a>
+              <a href="{% url 'accounts:User_Profile' %}">My Profile</a> 
+              <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+          </div>  -->
         {% elif not user.is_authenticated  %}
-            <li class="right"><a href="/admin">login</a></li>
-        <li class="right"><a href="#about">about</a></li>
+        
+        <li class="right"><a href="{% url 'accounts:register' %}">Register</a></li>
+        <li class="right"><a href="{% url 'accounts:login' %}">Login</a></li>
+
         {% endif %}
     </ul>
     <p1>
-        bye bye bye 
-    </p1>
+<!-- add text -->
+<style>
+    .lockscreen-wrapper .btn-primary {
+    background-color: #b79933 !important;
+}
+</style>
+<div class="lockscreen-wrapper" style="text-align: center;">
+    
+    <h2>You have been logged out successfully</h2>
+</div>    </p1>
 </body>
 
 </html>

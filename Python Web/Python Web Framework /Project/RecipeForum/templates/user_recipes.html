@@ -43,14 +43,13 @@
         {% if not recipes %}
 
         <div class="row">
-            <h1>{{ profile.user }}</h1>
-            <h1>You don't have any created Recipes yet</h1>
+            <h1>{{ profile.user }} does not have any created Recipes yet</h1>
         </div>
 
 
         {% else %}
         <div class="row">
-            <h1>My Recipe Posts</h1>
+            <h1>{{ profile.user }} Recipes</h1>
         </div>
         {% for recipe in recipes %}
         <!-- Movie Card Start -->
@@ -69,21 +68,26 @@
                     <a href="#">
                         <h3 class="card-movie-title">{{ recipe.item_name }}</h3>
                     </a>
-                    <div class="ratings"><span>8.8</span>/10</div>
+                    <div class="ratings"><span>likes:{{recipe.likes.count}} Dislikes:{{recipe.Dislikes.count}} </span></div>
                 </div>
                 <div class="card-movie-info">
-                    <div class="movie-running-time">
+                    <!-- <div class="movie-running-time">
                         <label>Last update</label>
 
-                    </div>
+                    </div> -->
 
+                    <label>Author</label>
+                    <p1>
+                        {{ recipe.user_name }}
+
+                    </p1>
                     <div class="movie-running-time">
                         <label>Time to be cooked</label>
                         <span>{{ recipe.item_time_to_cook }} minutes</span>
                     </div>
                 </div>
                 <div class="container">
-
+                    {% if  request.user == recipe.user_name or request.user.is_superuser  %}
 
                     <div class="row">
                         <!-- <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
@@ -113,9 +117,25 @@
                         <link href="/static/css/buttons/buttons.css " rel="stylesheet">
 
 
+                    </div>
+                    {% else %}
+
+                    <div class="row">
+
+                        <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                            <span><strong>View</strong></span>
+                        </a>
+
 
 
                     </div>
+
+
+
+
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -123,6 +143,45 @@
     </div>
 
     {% endif %}
+
+
+
+
+<style>
+    .pagination {
+      display: inline-block;
+    }
+    
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+    
+    .pagination a.active {
+      background-color: #3C69E7;
+      color: white;
+    }
+    
+    .pagination a:hover:not(.active) {background-color: #ddd;}
+</style>
+    
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    {% if user_recipes.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ user_recipes.previous_page_number }}">previous</a>
+   {% endif %}
+    <a class="active" href="#"> Page {{ user_recipes.number }} of {{ user_recipes.paginator.num_pages }}.</a>
+    {% if user_recipes.has_next %}
+    <a href="?page={{ user_recipes.next_page_number }}">next</a>
+    <a href="?page={{ user_recipes.paginator.num_pages }}">last &raquo;</a>
+{% endif %}
+   
+    <a href="#">&raquo;</a>
+  </div>
+
 </main>
 <!-- Movie Card End -->
 {% endblock %}

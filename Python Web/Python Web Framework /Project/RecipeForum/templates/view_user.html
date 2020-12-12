@@ -633,6 +633,7 @@ textarea.form-control {
 <div class="container bootstrap snippets bootdeys">
     <div class="row" id="user-profile">
         <div class="col-lg-3 col-md-4 col-sm-4">
+			{%  include 'delnavbar.html' %} 
             <div class="main-box clearfix">
                 <h3>{{ user.firstname}}  {{ user.lastname }} </h3>
                 <div class="profile-status">
@@ -649,7 +650,7 @@ textarea.form-control {
                 {% endif %}
                 <div class="profile-label"> 
                     
-                    {% if user.is_superuser %}
+                    {% if is_super_user %}
                     <span class="label label-danger">Admin</span>
                     {% else %}
                     <span class="label label-danger">User</span>
@@ -657,36 +658,38 @@ textarea.form-control {
                 </div>
 
                 <div class="profile-stars">
+                    {% if is_super_user %}
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<span>Super User</span>
+					{% else %}
+					<i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star-o"></i>
-                    <span>Super User</span>
+					<i class="fa fa-star-o"></i>
+                    <span>User</span>
+					{% endif %}
                 </div>
 
-                <div class="profile-since">
-                    Member since: Jan 2012
-                </div>
+               
 
                 <div class="profile-details">
                     <ul class="fa-ul">
                         <!-- <li><i class="fa-li fa fa-truck"></i>Orders: <span>456</span></li> -->
                         <li> <i class="fa-li fa fa-align-center"></i>My Recipes: <span>{{count}}</span></li>
                        
-                        <li><i class="fa-li fa fa-thumbs-up"></i>Likes: <span>828</span></li>
-                        <li> <i class="fa-li fa fa-thumbs-down"></i>dislikes : <span>828</span></li>
+                        <li><i class="fa-li fa fa-thumbs-up"></i>Likes: <span>{{likes}}</span></li>
+                        <li> <i class="fa-li fa fa-thumbs-down"></i>dislikes : <span>{{dislikes}}</span></li>
 
                        
-                        <li><i class="fa-li fa fa-tasks"></i>Tasks done: <span>1024</span></li>
                     </ul>
                 </div>
 
-                <div class="profile-message-btn center-block text-center">
-                    <a href="#" class="btn btn-success">
-                        <i class="fa fa-envelope"></i> Send message
-                    </a>
-                </div>
+                
             </div>
         </div>
 
@@ -694,9 +697,11 @@ textarea.form-control {
             <div class="main-box clearfix">
                 <div class="profile-header">
                     <h3><span>User info</span></h3>
-                    <a href="{% url 'accounts:edit_profile'  %}" class="btn btn-primary edit-profile">
+					{% if profile.user == request.user %}
+					<a href="{% url 'accounts:edit_profile'  %}" class="btn btn-primary edit-profile">
                         <i class="fa fa-pencil-square fa-lg"></i> Edit profile
-                    </a>
+					</a>
+					{%endif%}
                 </div>
 
                 <div class="row profile-user-info">
@@ -783,20 +788,14 @@ textarea.form-control {
 											</div>
 											
 											
-									<!-- </textarea> -->
-							   
-							   
-                              
-                                <!-- <br> Malibu, Calif., 90265 -->
+								
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-4 profile-social">
                         <ul class="fa-ul">
-                            <li><i class="fa-li fa fa-twitter-square"></i><a href="#">@scjohansson</a></li>
-                            <li><i class="fa-li fa fa-linkedin-square"></i><a href="#">John Doe </a></li>
+                            <li><i class="fa-li fa fa-twitter-square"></i><a href="#">{{ profile.twitter_url }}</a></li>
                             <li><i class="fa-li fa fa-facebook-square"></i><a href="#"> {{ profile.facebook_url }}</a></li>
-                            <li><i class="fa-li fa fa-skype"></i><a href="#">Black_widow</a></li>
                             <li><i class="fa-li fa fa-instagram"></i><a href="#">{{ profile.instagram_url }}</a></li>
                         </ul>
                         <a href="{% url 'accounts:user_recipes' profile.pk  %}" >

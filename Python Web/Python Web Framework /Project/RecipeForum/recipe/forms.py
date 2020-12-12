@@ -9,6 +9,7 @@ class ItemForm(forms.ModelForm):
         widgets = {'user_name': forms.HiddenInput(),
                    'item_name' : forms.TextInput(attrs = {'placeholder': 'Recipe Name'}),
                    'item_desc' : forms.Textarea (attrs = {'placeholder': 'Enter Recipe Description'}),
+                   'ingredients' : forms.Textarea (attrs = {'placeholder': '1 kg tomatos, 2kg carrots, 1 soup oil, 500gr sugar'}),
                    'item_time_to_cook' : forms.NumberInput(attrs = {'placeholder': 'Time to be cooked'}),
                    'item_image' : forms.TextInput (attrs = {'placeholder': 'Link to image'}),
                   

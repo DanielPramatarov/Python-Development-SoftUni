@@ -13,6 +13,9 @@ from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='accounts:login')
 
 def like(request, pk):
     recipe = Item.objects.get(pk=pk)
@@ -22,6 +25,7 @@ def like(request, pk):
     return HttpResponseRedirect(reverse('recipe:detail', args=[str(pk)]))
 
 
+@login_required(login_url='accounts:login')
 
 def dislike(request, pk):
     recipe = Item.objects.get(pk=pk)
@@ -31,6 +35,7 @@ def dislike(request, pk):
     recipe.Dislikes.add(request.user)
     return HttpResponseRedirect(reverse('recipe:detail', args=[str(pk)]))
 
+@login_required(login_url='accounts:login')
 
 def create_recipe(request):
 
@@ -55,7 +60,7 @@ def create_recipe(request):
     context = {'form': form, 'initial_user': initial_user['user_name']}
     return render(request, 'create.html', context)
 
-
+@login_required(login_url='accounts:login')
 
 def delete_recipe(request, pk):
     recipe = Item.objects.get(pk=pk)
@@ -71,6 +76,7 @@ def delete_recipe(request, pk):
         return redirect('/my_recipe/')
 
 
+@login_required(login_url='accounts:login')
 
 def detail_recipe(request, pk):
     recipe = Item.objects.get(pk=pk)
@@ -94,6 +100,7 @@ def detail_recipe(request, pk):
 
 
 
+@login_required(login_url='accounts:login')
 
 def edit_recipe(request, pk):
     recipe = Item.objects.get(pk=pk)
@@ -120,13 +127,32 @@ def edit_recipe(request, pk):
         return render(request, 'edit.html', context)
 
 
+# def index(request):
+#     item_list = Item.objects.all()
+
+#     context = {
+#         'item_list': item_list,
+#     }
+#     return render(request, "index.html", context)
+
 def index(request):
-    item_list = Item.objects.all()
+    all_recipes = Item.objects.all()
+    
+
+
+    paginator = Paginator(all_recipes, 6) 
+
+    page_number = request.GET.get('page')
+    all_recipes = paginator.get_page(page_number)
 
     context = {
-        'item_list': item_list,
-    }
-    return render(request, "index.html", context)
+        'all_recipes': all_recipes,
+        # 'page_obj':page_obj,
+        }
+
+
+ 
+    return render(request, 'all_ricepes.html', context)
 
 
 def user_recipes(request):
@@ -147,6 +173,7 @@ def user_recipes(request):
 
  
     return render(request, 'my_recipes.html', context)
+    # return render(request, 'user_recipes.html', context)
 
 
 def all_recipes(request):

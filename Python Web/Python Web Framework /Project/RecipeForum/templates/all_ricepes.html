@@ -85,7 +85,7 @@
 
                         <h3 class="card-movie-title">{{ recipe.item_name }}</h3>
                     </a>
-                    <div class="ratings"><span>8.8  </span>/10</div>
+                    <div class="ratings"><span>likes:{{recipe.likes.count}} Dislikes:{{recipe.Dislikes.count}} </span></div>
                 </div>
                 <div class="card-movie-info">
                     <div class="movie-running-time">
@@ -103,23 +103,19 @@
                     </div>
                 </div>
                 <div class="container">
-                    {% if  request.user == recipe.user_name   %}
+                    {% if  request.user == recipe.user_name or request.user.is_superuser  %}
 
+                    <link href="/static/css/buttons/buttons.css " rel="stylesheet">
 
                     <div class="row">
-                        <a href="{% url 'recipe:edit' recipe.id %}" class="btn btn-warning">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            <span><strong>Edit</strong></span>
-                        </a>
-                        <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                            <span><strong>View</strong></span>
-                        </a>
-                        <a href="{% url 'recipe:delete' recipe.id %}" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            <span><strong>Delete</strong></span>
+                        <a type="button" class="btn btn-warning btn-sm btn-radius"
+                            href="{% url 'recipe:edit' recipe.id %}">Edit</a>
 
-                        </a>
+                        <a type="button" class="btn btn-info btn-sm btn-radius"
+                            href="{% url 'recipe:detail' recipe.id %}">View</a>
+
+                        <a class="btn btn-danger btn-sm btn-radius"
+                        href="{% url 'recipe:delete' recipe.id %}">Delete</a>
 
 
 
@@ -128,11 +124,8 @@
 
                     <div class="row">
 
-                        <a href="{% url 'recipe:detail' recipe.id %}" class="btn btn-primary a-btn-slide-text">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                            <span><strong>View</strong></span>
-                        </a>
-
+                        <a type="button" class="btn btn-info btn-lg btn-radius"
+                            href="{% url 'recipe:detail' recipe.id %}">View</a>
 
 
                     </div>
